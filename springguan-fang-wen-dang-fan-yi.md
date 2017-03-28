@@ -1,4 +1,4 @@
-springhttp://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/官方文档：
+spring[http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/官方文档：](http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/官方文档：)
 
 # 一、Spring框架概述 {#一spring框架概述}
 
@@ -6,7 +6,7 @@ Spring框架是一个轻量级的解决方案，可以一站式地构建企业�
 
 Spring被设计为非侵入式的，这意味着你的域逻辑代码通常不会依赖于框架本身。在集成层（比如数据访问层），会存在一些依赖同时依赖于数据访问技术和Spring，但是这些依赖可以很容易地从代码库中分离出来。
 
-本文档是Spring框架的参考指南，如果你有任何请求、评论或问题，请给我们发邮件https://spring.io.questions，关于框架本身的问题将在StackOverflow上讨论（见）。
+本文档是Spring框架的参考指南，如果你有任何请求、评论或问题，请给我们发邮件[https://spring.io.questions，关于框架本身的问题将在StackOverflow上讨论（见）。](https://spring.io.questions，关于框架本身的问题将在StackOverflow上讨论（见）。)
 
 ## 1. Spring入门 {#1-spring入门}
 
@@ -315,7 +315,7 @@ dependencies {
 
 发行版zip文件发布在了Sprng的Maven仓库上（这只是为了方便，不需要额外的Maven或其它构建系统去下载它们）。
 
-浏览器中打开http://repo.spring.io/release/org/springframework/spring里程碑，并选择合适版本的子目录，就可以下载发行版的zip文件了。发行文件以**-dist.zip**结尾，例如，**spring-framework-{spring-version}-RELEASE-dist.zip**。发行文件也包含快照版本和版本。
+浏览器中打开[http://repo.spring.io/release/org/springframework/spring里程碑，并选择合适版本的子目录，就可以下载发行版的zip文件了。发行文件以\*\*-dist.zip\*\*结尾，例如，\*\*spring-framework-{spring-version}-RELEASE-dist.zip\*\*。发行文件也包含快照版本和版本。](http://repo.spring.io/release/org/springframework/spring里程碑，并选择合适版本的子目录，就可以下载发行版的zip文件了。发行文件以**-dist.zip**结尾，例如，**spring-framework-{spring-version}-RELEASE-dist.zip**。发行文件也包含快照版本和版本。)
 
 #### 2.3.2 日志管理 {#232-日志管理}
 
@@ -483,7 +483,6 @@ Java EE 6+及其相关的JPA 2.0和Servlet 3.0，被认为是Spring 4的基线�
 
 ```
 如果你是WebSphere 7用户，请一定要安装JPA 2.0包，如果是WebLogic 10.3.4或更高版本，还要安装JPA 2.0补丁，这样Spring 4才能兼容这两个服务器。
-
 ```
 
 更有远见的主意，Spring 4.0现在支持Java EE 7适用的规范，尤其是JMS 2.0、JTA 1.2、JPA 2.1、Bean Validation 1.1和JSR-236 Concurrency Utilities。像往常一样，这种支持只针对个人的使用，比如在Tomcat或独立的环境中。尽管如此，当Spring应用部署在Java EE 7的服务器上依然运行良好。
@@ -521,473 +520,40 @@ reader.beans {
 
 核心容器有以下几点改进：
 
-* Spring注入Bean时
-  把泛型当作一种限定符
-  。例如，使用Spring的
-  **Repository**
-  时，可以注入特定的实现：
- 
-  **@Autowired Repository**
-  **&lt;**
-  **Customer**
-  **&gt;**
-  ** customerRepository**
-  。
-* 使用Spring的元注解，可以开发
-  暴露特定属性的自定义注解
-  。
-* Bean可以在
-  被装配到list或数组中时排好序
-  。通过
-  **@Order**
-  注解和
-  **Ordered**
-  接口支持。
-* **@Lazy**
-  注解可以用于注入点，也可用于@Bean定义上。
-* 引入了**@Description**注解
-  以便开发者使用基于Java的配置。
-* 通过@Conditional注解可以定义
-  有条件过滤的bean
-  。这与@Profile类似但允许用户自定义开发策略。
-* 基于CGLIB的代理类
-  不再需要默认的构造方法。通过
-  objenesis
-  库进行支持，它被重新打包到Spring中并作为Spring框架的一部分发布。使用这种策略，生成代理实例时没有构造方法将被调用。
-* 添加了管理时区的支持。例如
-  **LocaleContext**
-  。
+* Spring注入Bean时把泛型当作一种限定符。例如，使用Spring的Repository时，可以注入特定的实现： 
+* @Autowired Repository&lt;Customer&gt; customerRepository。
+* 使用Spring的元注解，可以开发暴露特定属性的自定义注解。
+* Bean可以在被装配到list或数组中时排好序。通过@Order注解和Ordered接口支持。
+* @Lazy注解可以用于注入点，也可用于@Bean定义上。
+* 引入了@Description注解以便开发者使用基于Java的配置。
+* 通过@Conditional注解可以定义有条件过滤的bean。这与@Profile类似但允许用户自定义开发策略。
+* 基于CGLIB的代理类不再需要默认的构造方法。通过objenesis库进行支持，它被重新打包到Spring中并作为Spring框架的一部分发布。使用这种策略，生成代理实例时没有构造方法将被调用。
+* 添加了管理时区的支持。例如LocaleContext。
 
-### 3.7 Web的改进 {#37-web的改进}
+### 3.7 Web的改进
 
 保留了Servlet 2.5服务器的部署，但Spring 4.0现在主要关注Servlet 3.0+环境的部署。如果使用Spring MVC测试框架，需要保证在test classpath上包含Servlet 3.0的兼容JAR包。
 
 除了下面要讲的WebSocket方面的支持，在Spring的Web模块还包含以下几点改进：
 
-* 可以添加
-  新的**@RestController**注解
-  到Spring MVC应用上，而不用再添加
-  **@ResponseBody**
-  到每个
-  **@RequestMapping**
-  方法上。
-* 添加了
-  **AsyncRestTemplate**
-  类，当开发REST客户端时
-  允许非阻塞异步支持
-  。
-* 当开发Spring MVC应用时提供了
-  全面的时区支持
-  。
+* 可以添加新的@RestController注解到Spring MVC应用上，而不用再添加@ResponseBody到每个@RequestMapping方法上。
+* 添加了AsyncRestTemplate类，当开发REST客户端时允许非阻塞异步支持。
+* 当开发Spring MVC应用时提供了全面的时区支持。
 
 ### 3.8 WebSocket、SockJS 和STOMP Messaging {#38-websocketsockjs-和stomp-messaging}
 
-新的**spring-websocket**模块全面支持在web应用中客户端与服务端基于WebSocket双向通信。它兼容JSR-356、Java WebSocket API，另外还提供了基于SockJS的后退选项（例如，WebSocket仿真）用于不支持WebSocket协议的浏览器（例如，IE &lt; 10）。
+新的**spring-websocket**模块全面支持在web应用中客户端与服务端基于WebSocket双向通信。它兼容[JSR-356](http://jcp.org/en/jsr/detail?id=356)、Java WebSocket API，另外还提供了基于SockJS的后退选项（例如，WebSocket仿真）用于不支持WebSocket协议的浏览器（例如，IE &lt; 10）。
 
 新的**spring-messaging**模块支持STOMP作为WebSocket的子协议与一个注解程序模型一起用于路由并处理来自WebSocket客户端的STOMP消息。因此，一个**@Controller**可以同时包含**@RequestMapping**和**@MessageMapping**方法用于处理HTTP请求和来自WebSocket客户端的消息。新的**spring-messaging**模块还包含从以前Spring集成项目提取出来的关键抽象作为基于消息处理的应用的基础，如**Message**、**MessageChannel**、**MesaageHandler**等。
 
-更详细的内容请参考25 WebSocket支持章节。
+### 3.9 测试的改进
 
-### 3.9 测试的改进 {#39-测试的改进}
+除了移除了spring-test模块过时的代码，Spring 4.0还引入了几个新特性用于单元测试和集成测试：
 
-除了移除了**spring-test**模块过时的代码，Spring 4.0还引入了几个新特性用于单元测试和集成测试：
-
-* 几乎
-  **spring-test**
-  模块的所有注解（例如，
-  **@ContextConfiguration**
-  、
-  **@WebAppConfiguration**
-  、
-  **@ContextHierarchy**
-  、
-  **@ActiveProfiles**
-  等）都可以作为
-  元注解
-  用于创建自定义注解并减少测试套件中的重复配置。
-* 有效的bean定义配置文件可以通过编程解析，只要简单地实现自定义的
-  **ActiveProfilesResolver**
-  并注册
-  **@ActiveProfiles**
-  的
-  **resolver**
-  属性即可。
-* **spring-core**
-  模块引入了新的
-  **SocketUtils**
-  类，用于扫描本地空闲的TCP和UDP服务端口。这项功能并不特定用于测试，但是当写需要socket的集成测试时非常有用，例如，启动内存中的SMTP服务器、FTP服务器、Servlet容器等的测试。
-* 自Spring 4.0起，
-  **org.springframework.mock.web**
-  包中模拟集合以Servlet 3.0为基础。此外，一些Servlet API模拟（例如，
-  **MockHttpServletRequest**
-  ，
-  **MockServletContext**
-  等）有少许增强并可通过配置改进。
-
-## 4. Spring 4.1的新特性和增强功能 {#4-spring-41的新特性和增强功能}
-
-### 4.1 JMS的改进 {#41-jms的改进}
-
-Spring 4.1引入了一个更简单的方法来注册JMS监听器，那就是使用**@JmsListener**注解bean的方法。XML的命名空间也得到了增强以支持这项新特性（**jms:annotation-driven**），也可以通过Java配置来完全使用这项新特性（**@EnableJms**，**JmsListenerContainerFactory**），还可以使用**JmsListenerConfigurer**来编程式地注册监听器。
-
-Spring 4.1还可以与4.0中引入的**spring-messaging**合作使用：
-
-* 消息监听器可以拥有更弹性的签名，并且可以受益于标准的消息处理注解，比如，
-  **@Payload**
-  ,
-  **@Header**
-  ,
-  **@Headers**
-  ,
-  **@SendTo**
-  ，等等，也可以使用标准的
-  **Message**
-  代替
-  **javax.jms.Message**
-  作为方法的参数。
-* 新的
-  **JmsMessageOperation**
-  接口可以被使用，并且允许
-  **JmsTemplate**
-  像使用
-  **Message**
-  一样操作。
-
-最后，Spring 4.1还提供了以下各种各样的改进：
-
-* **JmsTemplate**
-  支持同步的请求应答操作。
-* 每个
-  **&lt;**
-  **jms:listener**
-  **&gt;**
-  元素可以指定监听器的优先级。
-* 通过
-  **BackOff**
-  实现可以配置消息监听容器的恢复选项。
-* JMS 2.0支持共享消费者。
-
-### 4.2 缓存的改进 {#42-缓存的改进}
-
-Spring 4.1支持JCache（JSR-107）注解，直接使用Spring已存在的缓存配置和基础架构即可，不需要其它的改变。
-
-Spring 4.1也极大地改进了它的缓存策略：
-
-* 可以在运行时使用
-  **CacheResolver**
-  解析缓存。因此，不再强制使用
-  **value**
-  参数来定义缓存的名称。
-* 更多自定义的操作：缓存解析，缓存管理，键生成器。
-* 新的
-  **@CacheConfig**
-  注解允许通用设置在类级别共享，而不需要启用任何缓存操作。
-* 使用
-  **CacheErrorHandler**
-  更好地处理缓存的异常。
-
-Spring 4.1还为了添加**putIfAbsent**方法对**CacheInterface**做了重大改变。
-
-### 4.3 Web的改进 {#43-web的改进}
-
-* 新的抽象
-  **ResourceResolver**
-  ,
-  **ResourceTransformer**
-  和
-  **ResourceUrlProvider**
-  扩展了已存在的基于
-  **ResourceHttpRequestHandler**
-  的资源处理程序。一些内置的实现提供了对带版本的资源URL（为了有效的HTTP缓存）、定位gzip资源、生成HTML 5 AppCache清单等的支持。参考
-  21.16.9 资源服务
-  。
-* JDK 1.8的
-  **java.util.Optional**
-  现在支持
-  **@RequestParam**
-  ,
-  **@RequestHeader**
-  和
-  **@MatrixVariable**
-  控制器方法的参数。
-* **ListenableFuture**
-  作为返回值替代了
-  **DeferredResult**
-  ，在这方面一项基础服务（或者说对
-  **AsyncRestTemplate**
-  的调用）已经返回了
-  **ListenableFuture**
-  。
-* **@ModelAttribute**
-  方法现在按照依赖间的顺序依次被调用。
-* Jackson的
-  **@JsonView**
-  直接作用于
-  **@ResponseBody**
-  和
-  **ResponseEntity**
-  控制器方法，用于序列化同一个POJO的不同形式（比如，汇总和详情）。这可以通过为模型属性添加指定key的序列化视图类型来渲染视图。参考
-  Jackson序列化视图支持
-  。
-* Jackson现在支持JSONP。参考
-  Jackson JSONP支持
-  。
-* 新的生命周期选项可用于在控制器方法返回后且响应写出前拦截
-  **@ResponseBody**
-  和
-  **ResponseEntity**
-  方法，声明一个
-  **@ControllerAdvice**
-  bean实现
-  **ResponseBodyAdvice**
-  即可，内置的
-  **@JsonView**
-  和JSONP恰恰利用了这点。参考
-  21.4.1 使用HandlerInterceptor拦截请求
-  。
-* 有三个HttpMessageConverter选项：
- 
-  * Gson——比Jackson更轻的足迹，已用于Spring Android中。
-  * Google协议缓冲——企业内部有效的服务间通信数据协议，但是也可以作为JSON和XML暴露于浏览器中。
-  * 通过jackson-dataformat-xml扩展支持基于XML的Jackson。当使用
-    **@EnableWebMvc**
-    或
-    **&lt;**
-    **mvc:annotation-driven**
-    **&gt;**
-    时，如果classpath下存在
-    **jackson-dataformat-xml**
-    则默认会替代JAXB2。
-* 类似JSP的视图现在可以通过引用控制器映射的名称与控制器建立链接。默认的名称将被赋给每一个
-  **@RequestMapping**
-  。例如，
-  **FooController**
-  拥有方法
-  **handleFoo**
-  ，它的名称为“FC\#handleFoo”。命名策略是可插拔的，也可以通过name属性为
-  **@RequestMapping**
-  明确地命名。在Spring JSP标签库中新的
-  **mvcUrl**
-  功能可以让使用JSP页面变得更方便。参考
-  21.7.2 从视图为Controller及其方法创建URI
-  。
-* **ResponseEntity**
-  提供了创建者风格的API用于引导控制器方法为服务端响应做准备。例如，
-  **ResponseEntity.ok\(\)**
-  。
-* **RequestEntity**
-  是一种新类型，它提供了创建者风格的API用于引导客户端REST代码为HTTP请求做准备。
-* MVC Java配置与XML命名空间：
- 
-  * 视图解析器可以被配置，包含对内容协商的支持。参考
-    21.16.8 视图解析器
-    。
-  * 视图控制器内置了对重定向及设置响应状态的支持。应用程序可以使用它配置重定向的URL，用视图渲染 404 响应，发送“无内容”响应，等等。一些用例请
-    点击这里
-    。
-  * 内置了自定义的路径匹配。参考
-    21.16.11 路径匹配
-    。
-* 支持Groovy标记模板（基于Groovy 2.3）。参考
-  **GroovyMarkupConfigurer**
-  和各自的
-  **ViewResolver**
-  及视图实现 。
-
-### 4.4 WebSocket 消息处理的改进 {#44-websocket-消息处理的改进}
-
-* 支持SockJS（Java）客户端。参考
-  **SockJsClient**
-  和同包下的类。
-* 当STOMP客户端订阅和取消订阅时新的应用上下文事件
-  **SessionSubscribeEvent**
-  和
-  **SessionUnsubscribeEvent**
-  会被触发。
-* 新的作用域“websocket”。参考
-  25.4.14 WebSocket作用域
-  。
-* **@SendToUser**
-  只能把单会话作为目标，而且不需要用户身份验证。
-* **@MessageMapping**
-  方法可以使用点“.”代替斜杠“/”作为分割符。参考
-  SPR-11660
-  。
-* STOMP/WebSocket监测信息收集和日志管理。参考
-  25.4.16 运行时监测
-  。
-* 得到极大优化和改进的日志管理保留了可读性和简洁性，甚至是在DEBUG水平。
-* 优化了消息的创建，包含了对临时消息可变性的支持，并避免自动消息id和时间戳的创建。参考Javadoc中的
-  **MessageHeaderAccessor**
-  。
-* 在WebSocket会话创建60秒后没有活动则将会关闭STOMP/WebSocket连接。参考
-  SPR-11884
-  。
-
-### 4.5 测试的改进 {#45-测试的改进}
-
-* Groovy脚本现在可用于配置
-  **ApplicationContext**
-  ，其中
-  **ApplicationContext**
-  在测试上下文框架中被加载用于集成测试。参考
-  带有Groovy脚本的上下文配置
-  。
-* 在事务测试方法中可以通过
-  **TestTransaction**
-  API编程式地开始和结束测试事务。参考
-  编程式事务管理
-  。
-* SQL脚本执行可以通过在每个类或方法上添加新的
-  **@Sql**
-  和
-  **@SqlConfig**
-  注解声明式地配置。参考
-  14.5.7执行SQL脚本
-  。
-* 可以通过新的
-  **@TestPropertySource**
-  注解配置用于测试的property源文件，它能够自动地重写系统和应用的property源文件。参考
-  带有测试property源文件的上下文配置
-  。
-* 默认的TestExecutionListeners能够被自动地发现。参考
-  自动发现默认的TestExecutionListeners
-  。
-* 自定义的TestExecutionListeners能够被自动地合并到默认的监听器中。参考
-  合并TestExecutionListeners
-  。
-* 测试上下文框架中事务测试的文档提供了更多深入的解释和附加的案例。参考
-  14.5.6 事务管理
-  。
-* 对
-  **MockServletContext**
-  ,
-  **MockHttpServletRequest**
-  和其它Servlet API模拟的各种各样的改进。
-* **AssertThrows**
-  被重构了用于支持
-  **Throwable**
-  而不是
-  **Exception**
-  。
-* 在Spring MVC测试中，JSON Assert作为使用JSONPath的额外选项，可以为JSON响应断言，这就像使用XMLUnit为XML断言一样。
-* 可以通过
-  **MockMvcConfigurer**
-  创建
-  **MockMvcBuilder**
-  。这使得应用Spring安全设置变得很容易，也可用于把通用设置压缩进任何第三方框架或项目中。
-* **MockRestServiceServer**
-  现在支持
-  **AsyncRestTemplate**
-  用于客户端测试。
-
-## 5. Spring 4.2的新特性和增强功能 {#5-spring-42的新特性和增强功能}
-
-### 5.1 核心容器的改进 {#51-核心容器的改进}
-
-* 类似
-  **@Bean**
-  的注解被发现并用于处理Java 8的默认方法，允许实现接口的配置类带有默认的
-  **@Bean**
-  方法。（译者注：
-  **@Bean**
-  注解可以用到Java 8接口的默认方法上，然后配置类实现这个接口一样可以得到bean）
-* 配置类现在可以声明
-  **@Import**
-  引入普通的组件类了，允许混合引入配置类和组件类。（译者注：
-  **@Import**
-  以前只能引入配置类，现在也可以引入没有任何注解的组件类）
-* 配置类可以声明一个
-  **@Order**
-  值，按照一定的顺序处理（比如，按名称重写bean），甚至是在classpath扫描的时候。（译者注：
-  **@Order**
-  值大的会覆盖小的）
-* **@Resource**
-  注入的元素支持
-  **@Lazy**
-  声明，像
-  **@Autowired**
-  一样，对请求目标的bean接受延迟初始化的代理。
-* 应用程序事件现在提供基于注解的模型了，也可以发布任何事件。
- 
-  * bean中的任何公共方法都能够通过
-    **@EventListener**
-    注解来消费事件。
-  * **@TransactionalEventListener**
-    提供了事务绑定的事件支持。
-* Spring 4.2提供了一流的支持用于声明和查找注解属性的别名。新的**@AliasFor**注解可以用来在单个注解内声明一对别名属性，或者声明一个从自定义注解属性到元注解属性的别名。
-
-  * 以下注解都通过
-    **@AliasFor**
-    翻新过了，以便为value属性提供更有意义的别名：
-    **@Cacheable**
-    ,
-    **@CacheEvict**
-    ,
-    **@CachePut**
-    ,
-    **@ComponentScan**
-    ,
-    **@ComponentScan.Filter**
-    ,
-    **@ImportResource**
-    ,
-    **@Scope**
-    ,
-    **@ManagedResource**
-    ,
-    **@Header**
-    ,
-    **@Payload**
-    ,
-    **@SendToUser**
-    ,
-    **@ActiveProfiles**
-    ,
-    **@ContextConfiguration**
-    ,
-    **@Sql**
-    ,
-    **@TestExecutionListeners**
-    ,
-    **@TestPropertySource**
-    ,
-    **@Transactional**
-    ,
-    **@ControllerAdvice**
-    ,
-    **@CookieValue**
-    ,
-    **@CrossOrigin**
-    ,
-    **@MatrixVariable**
-    ,
-    **@RequestHeader**
-    ,
-    **@RequestMapping**
-    ,
-    **@RequestParam**
-    ,
-    **@RequestPart**
-    ,
-    **@ResponseStatus**
-    ,
-    **@SessionAttributes**
-    ,
-    **@ActionMapping**
-    ,
-    **@RenderMapping**
-    ,
-    **@EventListener**
-    ,
-    **@TransactionalEventListener**
-    。
-  * 例如，来自**spring-test**模块的**@ContextConfiguration**现在定义如下：
-
-    ```
-
-
-    ```
+* 几乎spring-test模块的所有注解（例如，@ContextConfiguration、@WebAppConfiguration、@ContextHierarchy、@ActiveProfiles等）都可以作为元注解用于创建自定义注解并减少测试套件中的重复配置。
+* 有效的bean定义配置文件可以通过编程解析，只要简单地实现自定义的ActiveProfilesResolver并注册@ActiveProfiles的resolver属性即可。
+* spring-core模块引入了新的SocketUtils类，用于扫描本地空闲的TCP和UDP服务端口。这项功能并不特定用于测试，但是当写需要socket的集成测试时非常有用，例如，启动内存中的SMTP服务器、FTP服务器、Servlet容器等的测试。
+* 自Spring 4.0起，org.springframework.mock.web包中模拟集合以Servlet 3.0为基础。此外，一些Servlet API模拟（例如，MockHttpServletRequest，MockServletContext等）有少许增强并可通过配置改进。
 
 
 
