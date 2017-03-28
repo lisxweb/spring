@@ -111,25 +111,27 @@ Web层包括**spring-web**、**spring-webmvc**、**spring-websocket**、**spring
 
 **图2.2. 典型的成熟的Spring web应用程序**
 
-![](/assets/2.png)  
-
+![](/assets/2.png)
 
 Spring的声明式事务管理hibernate可以使web应用完成事务化，就像使用EJB容器管理的事务。所有客制的业务逻辑都可以使用简单的POJO实现，并用Spring的IoC容器进行管理。另外，还包括发邮件和验证功能，其中验证功能是从web层分离的，由你决定何处执行验证。Spring的ORM可以集成JPA、和JDO等，比如，使用Hibernate时，可以继续使用已存在的映射文件和标准的Hibernate的SessionFactory配置。表单控制器无缝地把web层和领域模型集成在一起，移除了ActionForms和其它把HTTP参数转换成领域模型的类。
 
 **图2.3. 使用第三方web框架的Spring中间件**
 
-![](/assets/3.png)  
-
+![](/assets/3.png)
 
 一些场景可能不允许你完全切换到另一个框架。然而，Spring框架不强制你使用它所有的东西，它不是非此即彼（all-or-nothing）的解决方案。前端使用Struts、Tapestry、JSF或别的UI框架可以和Spring中间件集成，从而使用Spring的事务管理功能。仅仅只需要使用**ApplicationContext**连接业务逻辑，并使用**WebApplicationContext**集成web层即可。
 
-**图2.4. 远程调用使用场景**  
-![](http://img.blog.csdn.net/20160405161505242?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "远程调用使用场景")
+**图2.4. 远程调用使用场景**
+
+![](/assets/4.png)  
+
 
 当需要通过web服务访问现有代码时，可以使用Spring的**Hessian-**，**Burlap-**，**Rmi-**或者**JaxRpcProxyFactory**类，远程访问现有的应用并非难事。
 
-**图2.5. EJB-包装现有的POJO**  
-![](http://img.blog.csdn.net/20160405163407827?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "EJB-包装现有的POJO")
+**图2.5. EJB-包装现有的POJO**
+
+![](/assets/5.png)  
+
 
 Spring框架也为EJB提供了访问抽象层，可以重新使用现有的POJO并把它们包装到无状态的会话bean中，以使其用于可扩展的安全的web应用中。
 
