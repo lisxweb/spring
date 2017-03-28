@@ -653,6 +653,7 @@ Spring 4.1还为了添加putIfAbsent方法对CacheInterface做了重大改变。
 * 重写了元注解属性的组合注解现在可以用在接口、抽象类、桥接和接口方法上，也可以用在类、标准方法、构造方法和字段上。
 
 * 代表注解属性的Map（和AnnotationsAttributes实例）可以被合成（或者转换）到一个注解中。
+
 * 基于字段的数据绑定（DirectFieldAccessor）可以与当前基于属性的数据绑定（BeanWrapper）一起使用。特别地，基于字段的绑定现在支持为集合、数据和Map导航。
 * DefaultConversionService为Steam、Charset、Currency和TimeZone提供了可以直接使用的转换器。这些转换器也可以被添加到任意的ConversionService中。
 * DefaultFormattingConversionService为JSR-354中的货币提供了支持（如果javax.money存在于classpath下），即MonetaryAmount和CurrencyUnit。这也包含对@NumberFormat的支持。
@@ -741,8 +742,14 @@ Spring 4.1还为了添加putIfAbsent方法对CacheInterface做了重大改变。
 
 ### 6.1 核心容器的改进 {#61-核心容器的改进}
 
-  
-
+* 核心容器提供了更丰富的元数据用于编程式评估。
+* Java8的默认方法可以作为bean属性的getter/setter方法被检测。
+* 如果目标bean仅仅定义了一个构造方法，就不必指定@Autowired注解了。
+* @Configuration类支持构造方法注入。
+* 任何用于指定@EventLIstener条件的SpEL表达式现在可以引用bean了（例如，@beanName.method\(\)）。
+* 组合注解现在可以重写元注解的数组属性。例如，@RequestMapping的String\[\] path可以使用组合注解的String path重写。
+* @Scheduled和@Schedules可以作为元注解，用来创造组合注解并可重写其属性。
+* @Scheduled支持任何作用域的bean。
 
 
 
