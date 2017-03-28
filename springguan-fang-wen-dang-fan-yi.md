@@ -123,15 +123,13 @@ Spring的声明式事务管理hibernate可以使web应用完成事务化，就�
 
 **图2.4. 远程调用使用场景**
 
-![](/assets/4.png)  
-
+![](/assets/4.png)
 
 当需要通过web服务访问现有代码时，可以使用Spring的**Hessian-**，**Burlap-**，**Rmi-**或者**JaxRpcProxyFactory**类，远程访问现有的应用并非难事。
 
 **图2.5. EJB-包装现有的POJO**
 
-![](/assets/5.png)  
-
+![](/assets/5.png)
 
 Spring框架也为EJB提供了访问抽象层，可以重新使用现有的POJO并把它们包装到无状态的会话bean中，以使其用于可扩展的安全的web应用中。
 
@@ -561,6 +559,62 @@ reader.beans {
 * 有效的bean定义配置文件可以通过编程解析，只要简单地实现自定义的ActiveProfilesResolver并注册@ActiveProfiles的resolver属性即可。
 * spring-core模块引入了新的SocketUtils类，用于扫描本地空闲的TCP和UDP服务端口。这项功能并不特定用于测试，但是当写需要socket的集成测试时非常有用，例如，启动内存中的SMTP服务器、FTP服务器、Servlet容器等的测试。
 * 自Spring 4.0起，org.springframework.mock.web包中模拟集合以Servlet 3.0为基础。此外，一些Servlet API模拟（例如，MockHttpServletRequest，MockServletContext等）有少许增强并可通过配置改进。
+
+## 4. Spring 4.1的新特性和增强功能 {#4-spring-41的新特性和增强功能}
+
+### 4.1 JMS的改进 {#41-jms的改进}
+
+Spring 4.1引入了一个更简单的方法来注册JMS监听器，那就是使用**@JmsListener**注解bean的方法。XML的命名空间也得到了增强以支持这项新特性（**jms:annotation-driven**），也可以通过Java配置来完全使用这项新特性（**@EnableJms**，**JmsListenerContainerFactory**），还可以使用**JmsListenerConfigurer**来编程式地注册监听器。
+
+Spring 4.1还可以与4.0中引入的**spring-messaging**合作使用
+
+* 消息监听器可以拥有更弹性的签名，并且可以受益于标准的消息处理注解，比如，@Payload, @Header, @Headers, @SendTo，等等，也可以使用标准的Message代替javax.jms.Message作为方法的参数。
+* 新的JmsMessageOperation接口可以被使用，并且允许JmsTemplate像使用Message一样操作。
+
+最后，Spring 4.1还提供了以下各种各样的改进：
+
+* JmsTemplate支持同步的请求应答操作。
+* 每个&lt;jms:listener&gt;元素可以指定监听器的优先级。
+* 通过BackOff实现可以配置消息监听容器的恢复选项。
+* JMS 2.0支持共享消费者。
+
+### 4.2 缓存的改进 {#42-缓存的改进}
+
+Spring 4.1支持JCache（JSR-107）注解，直接使用Spring已存在的缓存配置和基础架构即可，不需要其它的改变。
+
+Spring 4.1也极大地改进了它的缓存策略：
+
+* 可以在运行时使用CacheResolver解析缓存。因此，不再强制使用value参数来定义缓存的名称。
+* 更多自定义的操作：缓存解析，缓存管理，键生成器。
+* 新的@CacheConfig注解允许通用设置在类级别共享，而不需要启用任何缓存操作。
+* 使用CacheErrorHandler更好地处理缓存的异常。
+
+Spring 4.1还为了添加putIfAbsent方法对CacheInterface做了重大改变。
+
+### 4.3 Web的改进 {#43-web的改进}
+
+* 新的抽象ResourceResolver, ResourceTransformer和ResourceUrlProvider扩展了已存在的基于ResourceHttpRequestHandler的资源处理程序。一些内置的实现提供了对带版本的资源URL（为了有效的HTTP缓存）、定位gzip资源、生成HTML 5 AppCache清单等的支持。参考21.16.9 资源服务。
+* JDK 1.8的java.util.Optional现在支持@RequestParam, @RequestHeader和@MatrixVariable控制器方法的参数。
+* ListenableFuture作为返回值替代了DeferredResult，在这方面一项基础服务（或者说对AsyncRestTemplate的调用）已经返回了ListenableFuture。
+* @ModelAttribute方法现在按照依赖间的顺序依次被调用。
+* Jackson的@JsonView直接作用于@ResponseBody和ResponseEntity控制器方法，用于序列化同一个POJO的不同形式（比如，汇总和详情）。这可以通过为模型属性添加指定key的序列化视图类型来渲染视图。参考Jackson序列化视图支持。
+* Jackson现在支持JSONP。参考Jackson JSONP支持。
+* 新的生命周期选项可用于在控制器方法返回后且响应写出前拦截@ResponseBody和ResponseEntity方法，声明一个@ControllerAdvice bean实现ResponseBodyAdvice即可，内置的@JsonView和JSONP恰恰利用了这点。参考21.4.1 使用HandlerInterceptor拦截请求。
+* 有三个HttpMessageConverter选项： 
+* Gson——比Jackson更轻的足迹，已用于Spring Android中。
+* Google协议缓冲——企业内部有效的服务间通信数据协议，但是也可以作为JSON和XML暴露于浏览器中。
+* 通过jackson-dataformat-xml扩展支持基于XML的Jackson。当使用@EnableWebMvc或&lt;mvc:annotation-driven&gt;时，如果classpath下存在jackson-dataformat-xml则默认会替代JAXB2。
+* 类似JSP的视图现在可以通过引用控制器映射的名称与控制器建立链接。默认的名称将被赋给每一个@RequestMapping。例如，FooController拥有方法handleFoo，它的名称为“FC\#handleFoo”。命名策略是可插拔的，也可以通过name属性为@RequestMapping明确地命名。在Spring JSP标签库中新的mvcUrl功能可以让使用JSP页面变得更方便。参考21.7.2 从视图为Controller及其方法创建URI。
+* ResponseEntity提供了创建者风格的API用于引导控制器方法为服务端响应做准备。例如，ResponseEntity.ok\(\)。
+* RequestEntity是一种新类型，它提供了创建者风格的API用于引导客户端REST代码为HTTP请求做准备。
+
+* MVC Java配置与XML命名空间： 
+
+  * 
+
+
+
+
 
 
 
