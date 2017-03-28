@@ -651,6 +651,7 @@ Spring 4.1还为了添加putIfAbsent方法对CacheInterface做了重大改变。
 * Spring在发现元注解的搜索算法上做了很多改进。例如，在注解继承体系中可以声明局部的组合注解。
 
 * 重写了元注解属性的组合注解现在可以用在接口、抽象类、桥接和接口方法上，也可以用在类、标准方法、构造方法和字段上。
+
 * 代表注解属性的Map（和AnnotationsAttributes实例）可以被合成（或者转换）到一个注解中。
 * 基于字段的数据绑定（DirectFieldAccessor）可以与当前基于属性的数据绑定（BeanWrapper）一起使用。特别地，基于字段的绑定现在支持为集合、数据和Map导航。
 * DefaultConversionService为Steam、Charset、Currency和TimeZone提供了可以直接使用的转换器。这些转换器也可以被添加到任意的ConversionService中。
@@ -675,6 +676,73 @@ Spring 4.1还为了添加putIfAbsent方法对CacheInterface做了重大改变。
 * @SendTo注解的值现在可以使用SpEL表达式。
 * 响应目标可以使用JmsResponse在运行时计算。
 * @JmsListener是一个可重复性的注解，可以在同一个方法上声明多个JMS容器（如果你还没有使用Java 8，请使用新引入的@JmsListeners）。
+
+### 5.4 Web的改进 {#54-web的改进}
+
+* 支持HTTP流和服务器发送事件。参考HTTP流。
+* 支持内置CORS的全局（MVC Java配置和XML命名空间）和局部（例如，@CrossOrign）配置。参考26 CORS支持。
+* HTTP缓存更新： 
+  * 新的创建者CacheControl，嵌入到ResponseEntity, WebContentGenerator, ResourceHttpRequestHandler中。
+  * 在WebRequest中改进了ETag/Last-Modified的支持。
+* 自定义映射注解，使用@RequestMapping作为元注解。
+* AbstractHandlerMethodMapping中的公共方法用于在运行时注册和取消注册请求映射。
+* AbstractDispatcherServletInitializer中的保护方法createDispatcherServlet进一步自定义DispatcherServlet的实例。
+* HandlerMethod作为@ExceptionHandler方法的参数，特别在@ControllerAdvice组件中非常便利。
+* java.util.concurrent.CompletableFuture作为@Controller方法的返回类型。
+* HttpHeaders支持字节范围的请求，并提供静态资源。
+* @ResponseStatus检测嵌套异常。
+* RestTemplate中的UriTemplateHandler扩展点。 
+  * DefaultUriTemplateHandler暴露了baseUrl属性和路径段编码选项。
+  * 此扩展点可嵌入到URI模板库中。
+* OkHTTP与RestTemplate集成。
+* 自定义的baseUrl可以替代MvcUriComponentsBuilder中的方法。
+* 序列化/反序列化的异常信息在WARN级别被记录。
+* 默认的JSON前缀从“{}&&”改成了更安全的”\)\]}’,”中的一个（译者注：此处可能官方文档有误）。
+* 新的扩展点RequestBodyAdvice和内置实现支持@RequestBody方法参数上的Jackson的@JsonView。
+* 使用GSON或Jackson 2.6+时，处理器方法的返回类型被用于改进参数化类型的序列化，比如List&lt;Foo&gt;。
+* 引入了ScriptTemplateView作为JSR-223用于处理脚本web视图的机制，主要关注于Nashorn（JDK 8）上的JavaScript视图模板。
+
+### 5.5 WebSocket消息处理的改进 {#55-websocket消息处理的改进}
+
+* 暴露关于已连接用户和订阅存在的信息。 
+  * 新的SimpUserRegistry暴露为叫作“userRegistry”的bean。
+  * 在服务器集群间共享已存在的信息（参考代理中继配置选项）。
+* 解决用户在服务器集群中的目的地（参考代理中继配置选项）。
+* StompSubProtocolErrorHandler扩展点用来定制和控制STOMP错误帧到客户端。
+* 通过@ControllerAdvice组件声明的全局方法@MessageExceptionHandler。
+* SpEL表达式“selector”头用于SimpleBrokerMessageHandler的订阅。
+* 通过TCP和WebSocket使用STOMP客户端。参考25.4.13 STOMP客户端。
+* @SendTo和@SendToUser可以包含多个占位符。
+* Jackson的@JsonView支持在@MessageMapping和@SubscribeMapping方法上返回值。
+* ListenableFuture和CompletableFuture可以作为@MessageMapping和@SubscribeMapping方法的返回值类型。
+* MarshallingMessageConverter用于XML负载。
+
+### 5.6 测试的改进 {#56-测试的改进}
+
+* 基于JUnit的集成测试现在可以使用JUnit规则执行而不是SpringJUnit4ClassRunner。这使得基于Spring的集成测试可以使用替代runner运行，比如JUnit的Parameterized或第三方的runner如MockitoJUnitRunner。参考Spring JUnit规则。
+* Spring MVC测试框架现在对HtmlUnit提供了一流的支持，包括集成Selenium的WebDriver，允许基于页面的web应用测试不再需要部署到一个Servlet容器上。参考14.6.2, HtmlUnit的集成。
+* AopTestUtils是一个新的测试工具类，它允许开发者可以获取到底层的隐藏在一个或多个Spring代理类下的目标对象。参考13.2.1 通用测试工具类。
+* ReflectionTestUtils现在支持为static字段设值和取值，包括常量。
+* 通过@ActiveProfiles声明的bean定义配置文件的原始顺序现在保留了，这是为了使用一些案例，比如Spring Boot的ConfigFileApplicationListener，它通过有效的名称来加载配置文件。
+* @DirtiesContext现在支持新的模式BEFORE\_METHOD, BEFORE\_CLASS和BEFORE\_EACH\_TEST\_METHOD用于在测试之前关闭ApplicationContext——例如，在大型测试套件中的一些劣质的测试毁坏了对ApplicationContext的原始配置。
+* @Commit这个新注解可以直接替代@Rollback\(false\)。
+* @Rollback现在可以用来配置类级别默认的回滚语义。 
+  * 因此，@TransactionConfiguration现在过时了，并且会在后续版本中移除。
+* 通过statements这个新的属性@Sql现在支持内联SQL语句的执行。
+* 用于在测试期间缓存应用上下文的ContextCache现在是公共的API，它有默认的实现，可以替代自定义的缓存需求。
+* DefaultTestContext, DefaultBootstrapContext和DefaultCacheAwareContextLoaderDelegate现在是support子包下的公共类，允许自定义扩展。
+* TestContextBootstrappers现在负责创建TestContext。
+* 在Spring MVC测试框架中，MvcResult的详细日志现在可以在DEBUG级别被打印，或者写出到自定义的OutputStream或Writer中。参考MockMvcResultHanlder中的新方法log\(\), print\(OutputStream\)和print\(Writer\)。
+* JDBC XML的命名空间支持一个新的属性database-name，位于&lt;jdbc:embedded-database&gt;中，允许开发者为嵌入的数据库设置不同的名字——例如，通过SpEl表达式或者被当前 有效bean定义 配置文件 影响的属性文件占位符。
+* 嵌入的数据库现在可以被自动赋予不同的名字，允许在同一测试套件不同的应用上下文中重复使用通用的测试数据库配置。参考18.8.6 为嵌入的数据库生成不同的名字。
+* MockHttpServletRequest和MockHttpServletResponse现在通过getDateHeader和setDateHeader方法提供了更好的支持用于格式化日期头。
+
+## 6. Spring 4.3的新特性和增强功能 {#6-spring-43的新特性和增强功能}
+
+### 6.1 核心容器的改进 {#61-核心容器的改进}
+
+  
+
 
 
 
