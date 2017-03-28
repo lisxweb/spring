@@ -47,8 +47,9 @@ Spring的控制反转解决了上述问题，它提供了一种正式的解决�
 
 Spring大约包含了20个模块，这些模块组成了核心容器（CoreContainer测试）、数据访问/集成（Data Access/Integration）、Web、AOP（面向切面编程，Aspect Oriented Programming）、Instrumentation、消息处理（Messaging）和（Test），如下图：
 
-**图 2.1. Spring框架概述**  
-![](http://img.blog.csdn.net/20160331161910594?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "spring框架概述")
+**图 2.1. Spring框架概述**
+
+![](/assets/1.png)
 
 下面列出了每项功能对应的模块及其主题，它们都有人性的名字（artifact name），这些名字与依赖管理工具中的**artifact id**是相互对应的。
 
@@ -108,13 +109,17 @@ Web层包括**spring-web**、**spring-webmvc**、**spring-websocket**、**spring
 
 前面提及的构建模块使得Spring在很多场景成为一种合理的选择，不管是资源受限的嵌入式应用还是使用了事务管理和web集成框架的成熟的企业级应用。
 
-**图2.2. 典型的成熟的Spring web应用程序**  
-![](http://img.blog.csdn.net/20160405123611266?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "典型的成熟的Spring web应用程序")
+**图2.2. 典型的成熟的Spring web应用程序**
+
+![](/assets/2.png)  
+
 
 Spring的声明式事务管理hibernate可以使web应用完成事务化，就像使用EJB容器管理的事务。所有客制的业务逻辑都可以使用简单的POJO实现，并用Spring的IoC容器进行管理。另外，还包括发邮件和验证功能，其中验证功能是从web层分离的，由你决定何处执行验证。Spring的ORM可以集成JPA、和JDO等，比如，使用Hibernate时，可以继续使用已存在的映射文件和标准的Hibernate的SessionFactory配置。表单控制器无缝地把web层和领域模型集成在一起，移除了ActionForms和其它把HTTP参数转换成领域模型的类。
 
-**图2.3. 使用第三方web框架的Spring中间件**  
-![](http://img.blog.csdn.net/20160405150119917?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "使用第三方web框架的Spring中间件")
+**图2.3. 使用第三方web框架的Spring中间件**
+
+![](/assets/3.png)  
+
 
 一些场景可能不允许你完全切换到另一个框架。然而，Spring框架不强制你使用它所有的东西，它不是非此即彼（all-or-nothing）的解决方案。前端使用Struts、Tapestry、JSF或别的UI框架可以和Spring中间件集成，从而使用Spring的事务管理功能。仅仅只需要使用**ApplicationContext**连接业务逻辑，并使用**WebApplicationContext**集成web层即可。
 
