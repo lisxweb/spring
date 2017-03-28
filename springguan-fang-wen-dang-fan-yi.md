@@ -608,13 +608,73 @@ Spring 4.1还为了添加putIfAbsent方法对CacheInterface做了重大改变。
 * ResponseEntity提供了创建者风格的API用于引导控制器方法为服务端响应做准备。例如，ResponseEntity.ok\(\)。
 * RequestEntity是一种新类型，它提供了创建者风格的API用于引导客户端REST代码为HTTP请求做准备。
 
-* MVC Java配置与XML命名空间： 
+* MVC Java配置与XML命名空间：
 
-  * 
+  * bean中的任何公共方法都能够通过@EventListener注解来消费事件。
 
+  * @TransactionalEventListener提供了事务绑定的事件支持。
 
+* Spring 4.2提供了一流的支持用于声明和查找注解属性的别名。新的@AliasFor注解可以用来在单个注解内声明一对别名属性，或者声明一个从自定义注解属性到元注解属性的别名。
 
+  * 以下注解都通过@AliasFor翻新过了，以便为value属性提供更有意义的别名：@Cacheable, @CacheEvict, @CachePut, @ComponentScan, @ComponentScan.Filter, @ImportResource, @Scope, @ManagedResource, @Header, @Payload, @SendToUser, @ActiveProfiles, @ContextConfiguration, @Sql, @TestExecutionListeners, @TestPropertySource, @Transactional, @ControllerAdvice, @CookieValue, @CrossOrigin, @MatrixVariable, @RequestHeader, @RequestMapping, @RequestParam, @RequestPart, @ResponseStatus, @SessionAttributes, @ActionMapping, @RenderMapping, @EventListener, @TransactionalEventListener。
 
+  * 例如，来自spring-test模块的@ContextConfiguration现在定义如下：
+
+  * ```
+    public @interface ContextConfiguration {
+
+    @AliasFor("locations")
+    String[] value() default {};
+
+    @AliasFor("value")
+    String[] locations() default {};
+
+    // ...
+    }
+    ```
+  * 类似地，重写了元注解属性的注解现在也可以使用@AliasFor细粒度地控制那些在注解层次结构中被重写的属性。实际上，现在可以为元注解的value属性声明一个别名。
+
+  * 例如，现在可以像下面一样开发一种重写了自定义属性的组合注解。
+
+  * ```
+    @ContextConfiguration
+    public @interface MyTestConfig {
+
+    @AliasFor(annotation = ContextConfiguration.class, attribute = "value")
+    String[] xmlFiles();
+
+    // ...
+    }
+    ```
+  * 参考Spring注解编程模型。
+
+* Spring在发现元注解的搜索算法上做了很多改进。例如，在注解继承体系中可以声明局部的组合注解。
+
+* 重写了元注解属性的组合注解现在可以用在接口、抽象类、桥接和接口方法上，也可以用在类、标准方法、构造方法和字段上。
+* 代表注解属性的Map（和AnnotationsAttributes实例）可以被合成（或者转换）到一个注解中。
+* 基于字段的数据绑定（DirectFieldAccessor）可以与当前基于属性的数据绑定（BeanWrapper）一起使用。特别地，基于字段的绑定现在支持为集合、数据和Map导航。
+* DefaultConversionService为Steam、Charset、Currency和TimeZone提供了可以直接使用的转换器。这些转换器也可以被添加到任意的ConversionService中。
+* DefaultFormattingConversionService为JSR-354中的货币提供了支持（如果javax.money存在于classpath下），即MonetaryAmount和CurrencyUnit。这也包含对@NumberFormat的支持。
+* @NumberFormat现在可以作为元注解使用。
+* JavaMailSenderImpl有一个新的方法testConnection\(\)用于检查与服务器间的连接。
+* ScheduledTaskRegistrar暴露计划的任务。
+* Apache的commons-pool2现在支持AOP池CommonsPool2TargetSource。
+* 为脚本化bean引入了StandardScriptFactory作为一个基于JSR-223的机制，暴露于XML中的lang:std元素。对JavaScript和JRuby的支持。（注意：JRubyScriptFactory和lang:jruby现在过时了，请使用JSR-223）
+
+### 5.2 数据访问的改进 {#52-数据访问的改进}
+
+* AspectJ现在支持javax.transactional.Transactional。
+* SimpleJdbcCallOperations现在支持命名绑定。
+* 全面支持Hibernate ORM 5.0，作为JPA提供者（自动适配），也支持其原生API（被新的org.springframework.orm.hibernate5包覆盖）。
+* 嵌入的数据库现在可以被自动赋值不同的（unique）名字，且&lt;jdbc:embedded-database&gt;支持新的属性database-name。参考下面的“测试的改进”部分。
+
+### 5.3 JMS的改进 {#53-jms的改进}
+
+* autoStartup属性可以通过JmsListenerContainerFactory控制。
+* 每个监听器容器都能配置应答Destination的类型。
+* @SendTo注解的值现在可以使用SpEL表达式。
+* 响应目标可以使用JmsResponse在运行时计算。
+* @JmsListener是一个可重复性的注解，可以在同一个方法上声明多个JMS容器（如果你还没有使用Java 8，请使用新引入的@JmsListeners）。
 
 
 
