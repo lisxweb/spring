@@ -2,35 +2,35 @@
 
 # **依赖注入与控制反转**
 
-**    
+**      
 **
 
 **依赖注入：对于spring而言，将自己置身于spring的立场上去看，当调用方需要某一个类的时候我就为你提供这个类的实例，就是说spring负责将被依赖的这个对象赋值给调用方，那么就相当于我为调用方注入了这样的一个实例。从这方面来看是依赖注入。**
 
-**    
+**      
 **
 
 **控制反转：对于调用方来说，通常情况下是我主动的去创建的，也就是对于这个对象而言我是控制方，我有他产生与否的权力，但是，现在变了，现在变为spring来创建对象的实例，而我被动的接受，从这一点上看，是控制反转。**
 
-**    
+**      
 **
 
 **这两者的意思是一致的，就看你从谁的角度去看这个问题。不同的角度那么看到的问题可能是不一样的。**
 
-**    
+**      
 **
 
-**    
+**      
 **
 
 # **依赖注入两种方式**
 
-**    
+**      
 **
 
 ## **1.设值注入**
 
-**    
+**      
 **
 
 **设值注入:通过set的方式注入值.Ioc容器通过成员变量的setter方法来注入被依赖的对象，这种注入方式简单，直观，因而在spring中大量的使用。**
@@ -104,36 +104,19 @@ public class WangYang implements Person {
 }
 ```
 
-Spring的配置文件：
+**2.构造注入**
 
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="messageService" class="com.sx.spring20170328.MessagePrinter"></bean>
-    <bean id="wy" class="com.sx.spring20170328.WangYang">
-        <property name="service" ref="messageService"></property><!--set注入-->
-    </bean>
-    <bean id="ls" class="com.sx.spring20170328.LiSi">
-        <constructor-arg ref="messageService"/><!--构造注入-->
-    </bean>
-</beans>
-```
-
-## **2.构造注入**
-
-**    
+**      
 **
 
 **通过构造函数的方式注入。spring以反射的方式执行带指定参数的构造器，当执行带参数的构造器时就可以通过构造器的参数赋值给成员变量，完成构造注入。**
 
-**    
+**      
 **
 
 **那么现在需求变了，我需要改一些东西，下面可以注意下我主要改动了哪里：**
 
-**在复制WangYang这个类改成LiSi添加有参数和无参数的构造函数：**
+**复制WangYang这个类改成LiSi添加有参数和无参数的构造函数：**
 
 ```
 package com.sx.spring20170328;
@@ -155,115 +138,66 @@ public class LiSi implements Person {
 }
 ```
 
-在Spring配置文件中，稍微改动，即将原来的设值注入换为构造注入即可。
+Spring的配置文件：
 
-**\[java\]**
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="messageService" class="com.sx.spring20170328.MessagePrinter"></bean>
+    <bean id="wy" class="com.sx.spring20170328.WangYang">
+        <property name="service" ref="messageService"></property><!--set注入-->
+    </bean>
+    <bean id="ls" class="com.sx.spring20170328.LiSi">
+        <constructor-arg ref="messageService"/><!--构造注入-->
+    </bean>
+</beans>
+```
 
-[view plain](http://blog.csdn.net/wangyang1354/article/details/50757098#)
+测试类如下:
 
-[copy](http://blog.csdn.net/wangyang1354/article/details/50757098#)
+```
+package com.sx.spring20170328;
 
-[![](https://code.csdn.net/assets/CODE_ico.png "在CODE上查看代码片")](https://code.csdn.net/snippets/1591181)
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-[![](https://code.csdn.net/assets/ico_fork.svg "派生到我的代码片")](https://code.csdn.net/snippets/1591181/fork)
+/**
+ * Created by lisx on 17/3/28.
+ */
+public class MainTest {
+    public static void main(String[] args){
+        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        Person person = context.getBean("wy",Person.class);
+        person.sendMessage();
+        person = context.getBean("ls",Person.class);
+        person.sendMessage();
+    }
+}
 
-1. &lt;
-   ?xml version=
-   "1.0"
-    encoding=
-   "UTF-8"
-   ?
-   &gt;
-2. &lt;
-   beans xmlns=
-   "[http://www.springframework.org/schema/beans](http://www.springframework.org/schema/beans)"
-3. xmlns:xsi=
-   "[http://www.w3.org/2001/XMLSchema-instance](http://www.w3.org/2001/XMLSchema-instance)"
-4. xsi:schemaLocation="  
-5. http:
-   //www.springframework.org/schema/beans [http://www.springframework.org/schema/beans/spring-beans.xsd](http://www.springframework.org/schema/beans/spring-beans.xsd)"
-   &gt;
-6. 
-7. &lt;
-   !-- bean definitions here --
-   &gt;
-8. &lt;
-   bean id = 
-   "messageService"
-   class
-    = 
-   "com.siti.spring20160227.MessagePrinter"
-   &gt;
-   &lt;
-   /bean
-   &gt;
-9. &lt;
-   bean id = 
-   "wy"
-   class
-    = 
-   "com.siti.spring20160227.WangYang"
-   &gt;
-10. &lt;
-    !-- 
-    &lt;
-    property name=
-    "service"
-     ref=
-    "messageService"
-    &gt;
-    &lt;
-    /property
-    ## &gt;
+```
 
-    &gt;
-11. &lt;
-    span style=
-    "color:\#33ff33;"
-    &gt;
-    &lt;
-    constructor-arg ref=
-    "messageService"
-    &gt;
-    &lt;
-    /constructor-arg
-    &gt;
-    &lt;
-    /span
-    &gt;
-12. &lt;
-    /bean
-    &gt;
-13. &lt;
-    /beans
-    &gt;
+程序正常运行。所以从这里也可以体会到，spring这种解耦的方便性和重要性。
 
-**    
-**
-
-这样再次运行MainTest类，程序正常运行。所以从这里也可以体会到，spring这种解耦的方便性和重要性。
-
-**    
-**
-
-**    
+**      
 **
 
 # **设值注入和构造注入的对比**
 
-**    
+**      
 **
 
 \*\*这两种方式，效果是一样的，注入的时机不同，设值注入是先调用无参的构造函数，创建出实例后然后调用set方法注入属性值。而构造输入是通过在调用构造函数初始化实例的同时完成了注入。
 
 \*\*
 
-**    
+**      
 **
 
 ## **设值注入的优点**
 
-**    
+**      
 **
 
 **1. 通过set的方式设定依赖关系显得更加直观，自然，和javabean写法类似。**
@@ -272,12 +206,12 @@ public class LiSi implements Person {
 
 **3. 在成员变量可选的情况下，构造注入不够灵活。**
 
-**    
+**      
 **
 
 ## **构造注入的优点**
 
-**    
+**      
 **
 
 **某些特定的情况下，构造注入比设值注入好一些。**
